@@ -1,4 +1,4 @@
-package com.dealer.toppopularfeatureapplication
+package com.dealer.toppopularfeatureapplication.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,9 +11,19 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.dealer.toppopularfeatureapplication.R
+import com.dealer.toppopularfeatureapplication.network.DealsDBClient
+import com.dealer.toppopularfeatureapplication.network.DealsInterface
+import com.dealer.toppopularfeatureapplication.top_deals.DealsPagedListAdapter
+import com.dealer.toppopularfeatureapplication.top_deals.DealsPagedListRepository
+import com.dealer.toppopularfeatureapplication.top_deals.TopViewModel
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.fragment_top.*
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -59,14 +69,19 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-        val adapter =MyViewPagerAdapter(supportFragmentManager)
+        val adapter =
+            MyViewPagerAdapter(
+                supportFragmentManager
+            )
         adapter.addFragment(TopFragment(),"Top")
         adapter.addFragment(PopularFragment(),"Popular")
-        adapter.addFragment(FeatureFragment(),"Feature")
+        adapter.addFragment(FeaturedFragment(),"Featured")
 
         viewPager.adapter=adapter
         tabs.setupWithViewPager(viewPager)
     }
+
+
 
     class MyViewPagerAdapter(manager:FragmentManager):FragmentPagerAdapter(manager){
         private val fragmentList: MutableList<Fragment> =ArrayList()
