@@ -1,5 +1,6 @@
 package com.dealer.toppopularfeatureapplication.top_deals
 
+/*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
@@ -33,4 +34,4 @@ class DealsPagedListRepository(private val apiService: DealsInterface) {
             DealsDataSource::networkState)
     }
 
-}
+}*/

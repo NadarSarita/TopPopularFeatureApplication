@@ -1,60 +1,70 @@
 package com.dealer.toppopularfeatureapplication.top_deals
 
-import android.provider.ContactsContract
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.dealer.toppopularfeatureapplication.module.DataValue
+import com.dealer.toppopularfeatureapplication.module.Deals
+import com.dealer.toppopularfeatureapplication.network.DealsDBClient
 import com.dealer.toppopularfeatureapplication.network.DealsInterface
-import com.dealer.toppopularfeatureapplication.network.PAGE
-import com.dealer.toppopularfeatureapplication.repository.NetworkState
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class DealsDataSource(private val apiService: DealsInterface, private val compositeDisposable: CompositeDisposable) : PageKeyedDataSource<Int, DataValue>(){
-
-    private var page= PAGE
-    val networkState:MutableLiveData<NetworkState> =MutableLiveData()
-
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, DataValue>) {
-    networkState.postValue(NetworkState.LOADING)
-
-        compositeDisposable.add(apiService.getTop(page)
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                callback.onResult(it.deals.dataValue,null,page+1)
-                println("Working dataSource ${it.deals.totalCount}")
-                networkState.postValue(NetworkState.LOADED)
-            },
-                {
-                    networkState.postValue(NetworkState.ERROR)
-                    Log.i("DealsDataSource",it.message)
-                }))
-    }
-
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, DataValue>) {
-        networkState.postValue(NetworkState.LOADING)
-        compositeDisposable.add(apiService.getTop(params.key)
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                if(it.deals.totalCount>=params.key)
-                {
-                    callback.onResult(it.deals.dataValue,params.key+1)
-                    networkState.postValue(NetworkState.LOADED)
-                }else{
-                    networkState.postValue(NetworkState.END)
-                }
-                networkState.postValue(NetworkState.LOADED)
-            },
-                {
-                    networkState.postValue(NetworkState.ERROR)
-                    Log.i("DealsDataSource",it.message)
-                }))
-   }
-
+class DealsDataSource : PageKeyedDataSource<Int, DataValue>() {
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, DataValue>) {
-
+        val service = DealsDBClient.buildService(DealsInterface::class.java)
+        val call = service.getTop(params.key)
+        call.enqueue(object : Callback<Deals> {
+            override fun onResponse(call: Call<Deals>, response: Response<Deals>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()!!
+                    val responseItems = apiResponse.dataValue
+                    val key = if (params.key > 1) params.key - 1 else 0
+                    responseItems?.let {
+                        callback.onResult(responseItems, key)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<Deals>, t: Throwable) {
+            }
+        })
     }
-
-
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, DataValue>) {
+        val service = DealsDBClient.buildService(DealsInterface::class.java)
+        val call = service.getTop(FIRST_PAGE)
+        call.enqueue(object : Callback<Deals> {
+            override fun onResponse(call: Call<Deals>, response: Response<Deals>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()!!
+                    val responseItems = apiResponse.dataValue
+                    responseItems?.let {
+                        callback.onResult(responseItems, null, FIRST_PAGE + 1)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<Deals>, t: Throwable) {
+            }
+        })
+    }
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, DataValue>) {
+        val service = DealsDBClient.buildService(DealsInterface::class.java)
+        val call = service.getTop(params.key)
+        call.enqueue(object : Callback<Deals> {
+            override fun onResponse(call: Call<Deals>, response: Response<Deals>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()!!
+                    val responseItems = apiResponse.dataValue
+                    val key = params.key + 1
+                    responseItems?.let {
+                        callback.onResult(responseItems, key)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<Deals>, t: Throwable) {
+            }
+        })
+    }
+    companion object {
+        const val PAGE_SIZE = 10
+        const val FIRST_PAGE = 1
+    }
 }

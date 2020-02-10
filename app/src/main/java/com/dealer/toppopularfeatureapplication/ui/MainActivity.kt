@@ -1,29 +1,19 @@
 package com.dealer.toppopularfeatureapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dealer.toppopularfeatureapplication.R
-import com.dealer.toppopularfeatureapplication.network.DealsDBClient
-import com.dealer.toppopularfeatureapplication.network.DealsInterface
-import com.dealer.toppopularfeatureapplication.top_deals.DealsPagedListAdapter
-import com.dealer.toppopularfeatureapplication.top_deals.DealsPagedListRepository
-import com.dealer.toppopularfeatureapplication.top_deals.TopViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_top.*
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
