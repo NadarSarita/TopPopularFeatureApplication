@@ -9,7 +9,7 @@
     android:layout_height="150dp">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher_background"
@@ -23,7 +23,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/imgV"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -35,39 +35,39 @@
         app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_profile"
         android:text="52"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toStartOf="@+id/imgV"
+        app:layout_constraintTop_toBottomOf="@+id/imgV" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txtComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:drawableStart="@drawable/ic_profile"
         android:text="85"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtLike"
+        app:layout_constraintStart_toEndOf="@+id/txtLike" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:drawableStart="@drawable/ic_profile"
         android:text="5 Dec"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintStart_toEndOf="@+id/textView3" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtComment"
+        app:layout_constraintStart_toEndOf="@+id/txtComment" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="More Options"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDateTime"
         app:layout_constraintEnd_toEndOf="parent" />
 
 

@@ -6,7 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.dealer.toppopularfeatureapplication.R
+import com.dealer.toppopularfeatureapplication.top_deals.DealsPagedListAdapter
+import com.dealer.toppopularfeatureapplication.top_deals.TopViewModel
+import kotlinx.android.synthetic.main.fragment_top.*
 
 /**
  * A simple [Fragment] subclass.
@@ -22,6 +27,13 @@ class FeaturedFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = DealsPagedListAdapter()
+        val itemViewModel = ViewModelProviders.of(this).get(TopViewModel::class.java)
+        itemViewModel.userPagedList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+        recyclerView.adapter = adapter
+
     }
 
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dealer.toppopularfeatureapplication.R
 import com.dealer.toppopularfeatureapplication.module.DataValue
 import kotlinx.android.synthetic.main.layout_top.view.*
@@ -22,15 +23,22 @@ class DealsPagedListAdapter : PagedListAdapter<DataValue, DealsPagedListAdapter.
     }
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val txtTitle = view.txtTitle
+        private val imgV=view.imgV
+        private val txtLike=view.txtLike
+        private val txtComment=view.txtComment
+        private val txtDateTime=view.txtDateTime
 
         fun bind(user: DataValue) {
             println("Working Title ${user.title}")
             txtTitle.text=user.title
+            txtLike.text= user.voteCount.toString()
+            txtComment.text=user.commentsCount.toString()
+            txtDateTime.text=user.createdAt.toString()
 
-       /*     Glide.with(imageView.context)
-                .load(user.avatar)
-                .placeholder(R.drawable.loading)
-                .into(imageView);*/
+            Glide.with(imgV.context)
+                .load(user.image)
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(imgV)
         }
     }
     companion object {
