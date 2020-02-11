@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.dealer.toppopularfeatureapplication.R
 import com.dealer.toppopularfeatureapplication.module.DataValue
 import kotlinx.android.synthetic.main.layout_top.view.*
