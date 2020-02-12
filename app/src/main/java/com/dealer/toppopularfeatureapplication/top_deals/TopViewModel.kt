@@ -13,6 +13,7 @@ class TopViewModel(private val dao:TopDealsDao) : ViewModel() {
     private var liveDataSource: LiveData<DealsDataSource>
     val userLiveDataSource = MutableLiveData<DealsDataSource>()
     init {
+
         val itemDataSourceFactory = DealsDataSourceFactory(dao)
         liveDataSource = itemDataSourceFactory.userLiveDataSource
         val config = PagedList.Config.Builder()
