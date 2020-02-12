@@ -1,16 +1,19 @@
 package com.dealer.toppopularfeatureapplication.top_deals
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.dealer.toppopularfeatureapplication.dao.TopDealsDao
 import com.dealer.toppopularfeatureapplication.module.DataValue
 
-class TopViewModel : ViewModel() {
+class TopViewModel(private val dao:TopDealsDao) : ViewModel() {
     var userPagedList: LiveData<PagedList<DataValue>>
     private var liveDataSource: LiveData<DealsDataSource>
+    val userLiveDataSource = MutableLiveData<DealsDataSource>()
     init {
-        val itemDataSourceFactory = DealsDataSourceFactory()
+        val itemDataSourceFactory = DealsDataSourceFactory(dao)
         liveDataSource = itemDataSourceFactory.userLiveDataSource
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)

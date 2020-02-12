@@ -1,5 +1,7 @@
 package com.dealer.toppopularfeatureapplication.ui
 
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -69,9 +72,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         viewPager.adapter=adapter
         tabs.setupWithViewPager(viewPager)
+
     }
-
-
 
     class MyViewPagerAdapter(manager:FragmentManager):FragmentPagerAdapter(manager){
         private val fragmentList: MutableList<Fragment> =ArrayList()
