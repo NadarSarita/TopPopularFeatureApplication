@@ -27,7 +27,7 @@ class FeaturedFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val adapter = DealsPagedListAdapter()
+        val adapter = DealsPagedListAdapter(view.context)
         val itemViewModel = ViewModelProviders.of(this).get(TopViewModel::class.java)
         itemViewModel.userPagedList.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)

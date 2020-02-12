@@ -1,5 +1,6 @@
 package com.dealer.toppopularfeatureapplication.top_deals
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import com.dealer.toppopularfeatureapplication.R
 import com.dealer.toppopularfeatureapplication.module.DataValue
 import kotlinx.android.synthetic.main.layout_top.view.*
 
-class DealsPagedListAdapter : PagedListAdapter<DataValue, DealsPagedListAdapter.UserViewHolder>(USER_COMPARATOR) {
+class DealsPagedListAdapter(val context: Context) : PagedListAdapter<DataValue, DealsPagedListAdapter.UserViewHolder>(DealsDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_top, parent, false)
@@ -19,8 +20,14 @@ class DealsPagedListAdapter : PagedListAdapter<DataValue, DealsPagedListAdapter.
     }
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = getItem(position)
+        if (user == null) {
+            holder.clear()
+        } else {
+            holder.bind(user)
+        }
         user?.let { holder.bind(it) }
     }
+
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val txtTitle = view.txtTitle
         private val imgV=view.imgV
@@ -40,13 +47,10 @@ class DealsPagedListAdapter : PagedListAdapter<DataValue, DealsPagedListAdapter.
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(imgV)
         }
-    }
-    companion object {
-        private val USER_COMPARATOR = object : DiffUtil.ItemCallback<DataValue>() {
-            override fun areItemsTheSame(oldItem: DataValue, newItem: DataValue): Boolean =
-                oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: DataValue, newItem: DataValue): Boolean =
-                newItem == oldItem
+
+        fun clear() {
+            txtTitle.text = null
         }
     }
+
 }
