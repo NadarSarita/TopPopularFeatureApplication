@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.dealer.toppopularfeatureapplication.R
 import com.dealer.toppopularfeatureapplication.top_deals.DealsPagedListAdapter
 import com.dealer.toppopularfeatureapplication.top_deals.TopViewModel
+import com.dealer.toppopularfeatureapplication.top_deals.TopViewModelFactory
 import kotlinx.android.synthetic.main.fragment_top.*
+
 
 class TopFragment : Fragment(){
 
@@ -25,7 +27,8 @@ class TopFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val adapter = DealsPagedListAdapter(view.context)
-        val itemViewModel = ViewModelProviders.of(this.requireActivity()).get(TopViewModel::class.java)
+
+        val itemViewModel = ViewModelProviders.of(this.requireActivity(),TopViewModelFactory(this.requireActivity().application)).get(TopViewModel::class.java)
         itemViewModel.userPagedList.observe(viewLifecycleOwner, Observer {
             if(it!=null)
             adapter.submitList(it)

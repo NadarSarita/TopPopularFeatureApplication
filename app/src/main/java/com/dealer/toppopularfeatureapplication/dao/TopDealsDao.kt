@@ -12,8 +12,11 @@ interface TopDealsDao {
 
     @Insert
        // (onConflit= OnConflictStrategy.REPLACE)
-    fun insertTopDeals(topDeals: List<DataValue>)
+    fun insertTopDeals(topDeals: List<TopDeals>)
 
-    @Query("SELECT * FROM top_deals")
+ /*   @Query("SELECT * FROM topDeals")
+    fun getTopDeals(): DataSource.Factory<Int, DataValue>*/
+
+    @Query("SELECT * FROM topDeals")
     fun getTopDeals(): DataSource.Factory<Int, DataValue>
 }
